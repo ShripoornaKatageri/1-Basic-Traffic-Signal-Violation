@@ -1,0 +1,56 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[ ]:
+
+
+#program to plot a graph
+import numpy as np
+import pandas as pd 
+import matplotlib.pyplot as plt
+import time
+import RPi.GPIO as GPIO
+#we'll create a list seperatly for x axis and y axis
+
+#x axis list:-
+time_violated=[]
+if GPIO.input(signal_red or signal_yellow):
+        while True:
+            if GPIO.input(ir_sensor):
+                time_violated.append(day_time[-1])
+            os.system('cls')
+
+#y axis list:-
+detect_status=[]
+if GPIO.input(signal_red or signal_yellow):
+        while True:
+            if GPIO.input(ir_sensor):
+                detect_status.append(1)
+            os.system('cls')
+
+#using pandas DataFrame so that we can make a data table.
+Violation_data={
+    "time_violated":detect_status
+    }
+
+print(pd.DataFrame(Violation_data))
+
+                
+#finally ploting a graph:-
+
+#converting list to arry to plot a graph
+graph_time_vol=np.array(time_violated)
+graph_detect_stat=np.array(detect_status)
+
+# commands to plot a graph
+plt.plot(graph_time_vio,graph_detect_stat,'o|r')
+
+#defining the properties of graph
+plt.axis(['0:0:0','23:59:59', -1, 2])
+plt.xlable('time')
+plt.ylable('status')
+plt.title('traffic signal violation')
+
+#showing the graph
+plt.show()
+
