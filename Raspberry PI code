@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
-
+import time
+import RPi.GPIO as GPIO
+import numpy as  np
 
 #program for the IR sensor(using raspberrypi)
 ir_sensor = 16
