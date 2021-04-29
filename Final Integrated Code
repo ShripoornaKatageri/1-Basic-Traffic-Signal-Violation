@@ -1,0 +1,150 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
+'''
+
+our aim of this project is to display a graph which gives us the information about when the most number of traffic signal
+violation happens during a day.
+
+'''
+
+
+# In[1]:
+
+
+import numpy as np
+import pandas as pd 
+import matplotlib.pyplot as plt
+import time
+import RPi.GPIO as GPIO
+
+
+# In[ ]:
+
+
+#imported the required libraries 
+
+
+# In[ ]:
+
+
+#program for a clock 
+import os    
+import time    
+second = 0    
+minute = 0   
+hours = 0 
+day_time=[]
+while(True):
+    day_time.append('%d:%d:%d'%(hours,minute,second))
+    time.sleep(1)    
+    second+=1    
+    if(second == 60):    
+        second = 0    
+        minute+=1    
+    if(minute == 60):    
+        minute = 0    
+        if(hours<24):
+            hours+=1;
+        else:
+            hours=0;
+    os.system('cls')
+
+
+# In[2]:
+
+
+#program for the IR sensor(using raspberrypi)
+ir_sensor = 16
+display = 18
+signal_red = 24
+signal_yellow=22
+signal_green=5
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(signal_red,GPIO.IN)
+GPIO.setup(signal_yellow,GPIO.IN)
+GPIO.setup(signal_green,GPIO.IN)
+GPIO.setup(ir_sensor,GPIO.IN)
+GPIO.setup(display,GPIO.OUT)
+
+GPIO.output(display,True)
+print("IR Sensor Ready.....")
+print (" ")
+
+try: 
+    if GPIO.input(signal_red or signal_yellow):
+        while True:
+            if GPIO.input(ir_sensor):
+                status=1;
+                GPIO.output(display,True)
+                print ("Object Detected")
+                while GPIO.input(ir_sensor):
+                    time.sleep(0.2)
+            else:
+                status=0;
+                GPIO.output(display,False)
+    else pass
+
+except KeyboardInterrupt:
+    GPIO.cleanup()
+
+
+# In[2]:
+
+
+#program to plot a graph
+
+#we'll create a list seperatly for x axis and y axis
+
+#x axis list:-
+time_violated=[]
+if GPIO.input(signal_red or signal_yellow):
+        while True:
+            if GPIO.input(ir_sensor):
+                time_violated.append(day_time[-1])
+            os.system('cls')
+
+#y axis list:-
+detect_status=[]
+if GPIO.input(signal_red or signal_yellow):
+        while True:
+            if GPIO.input(ir_sensor):
+                detect_status.append(1)
+            os.system('cls')
+
+#using pandas DataFrame so that we can make a data table.
+Violation_data={
+    "time_violated":detect_status
+    }
+
+print(pd.DataFrame(Violation_data))
+
+                
+#finally ploting a graph:-
+
+#converting list to arry to plot a graph
+graph_time_vol=np.array(time_violated)
+graph_detect_stat=np.array(detect_status)
+
+# commands to plot a graph
+plt.plot(graph_time_vio,graph_detect_stat,'o|r')
+
+#defining the properties of graph
+plt.axis(['0:0:0','23:59:59', -1, 2])
+plt.xlable('time')
+plt.ylable('status')
+plt.title('traffic signal violation')
+
+#showing the graph
+plt.show()
+
+
+
+
+
+
+
