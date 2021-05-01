@@ -58,11 +58,12 @@ while(True):
 
 
 #program for the IR sensor(using raspberrypi)
-ir_sensor = 16
-display = 18
+
 signal_red = 24
 signal_yellow=22
 signal_green=5
+ir_sensor = 16
+display = 18
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(signal_red,GPIO.IN)
@@ -79,13 +80,11 @@ try:
     if GPIO.input(signal_red or signal_yellow):
         while True:
             if GPIO.input(ir_sensor):
-                status=1;
                 GPIO.output(display,True)
                 print ("Object Detected")
                 while GPIO.input(ir_sensor):
                     time.sleep(0.2)
             else:
-                status=0;
                 GPIO.output(display,False)
     else pass
 
