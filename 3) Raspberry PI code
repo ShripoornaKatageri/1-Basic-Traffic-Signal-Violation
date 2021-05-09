@@ -20,8 +20,6 @@ GPIO.setup(signal_green,GPIO.IN)
 GPIO.setup(ir_sensor,GPIO.IN)
 
 lcd.write_string(u'IR Sensor ready!')
-print("IR Sensor Ready.....")
-print (" ")
 
 try: 
     if GPIO.input(signal_red or signal_yellow):
