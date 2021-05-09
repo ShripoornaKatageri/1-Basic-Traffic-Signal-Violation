@@ -20,7 +20,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import time
 import RPi.GPIO as GPIO
-import RPLCD as CharLCD
+import RPLCD as CharLCD,cleared
 
 
 # In[ ]:
@@ -64,7 +64,7 @@ signal_red = 24
 signal_yellow=22
 signal_green=5
 ir_sensor = 16
-lcd = CharLCD(cols=16, rows=2, pin_rs=37, pin_e=35, pins_data=[40, 38, 36, 32, 33, 31, 29, 23])
+lcd = CharLCD(cols=16, rows=2, pin_rs=37, pin_e=35, pins_data=[40, 38, 36, 32, 33, 31, 29, 23],numbering_mode=GPIO.BOARD)
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(signal_red,GPIO.IN)
@@ -72,13 +72,15 @@ GPIO.setup(signal_yellow,GPIO.IN)
 GPIO.setup(signal_green,GPIO.IN)
 GPIO.setup(ir_sensor,GPIO.IN)
 
-lcd.write_string(u'IR Sensor ready!')
+with cleared(lcd):
+    lcd.write_string(u'IR Sensor ready!')
 
 try: 
     if GPIO.input(signal_red or signal_yellow):
         while True:
             if GPIO.input(ir_sensor):
-                lcd.write_sting(u'Vechile Detected')
+                with cleared(lcd):
+                    lcd.write_sting(u'Vechile Detected')
                 while GPIO.input(ir_sensor):
                     time.sleep(0.2)
             else:
