@@ -20,6 +20,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import time
 import RPi.GPIO as GPIO
+import RPLCD 
 
 
 # In[ ]:
