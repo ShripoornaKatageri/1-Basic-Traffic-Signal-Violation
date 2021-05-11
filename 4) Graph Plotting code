@@ -10,6 +10,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import time
 import RPi.GPIO as GPIO
+
+#to have a graph representation at backend
+%matplotlib inline 
+
 #we'll create a list seperatly for x axis and y axis
 
 #x axis list:-
