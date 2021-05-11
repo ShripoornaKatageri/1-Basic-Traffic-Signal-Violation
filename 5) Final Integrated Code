@@ -96,6 +96,9 @@ except KeyboardInterrupt:
 
 #program to plot a graph
 
+#we'll have a graph representation at the backend just in case.
+%matplotlib inline
+
 #we'll create a list seperatly for x axis and y axis
 
 #x axis list:-
